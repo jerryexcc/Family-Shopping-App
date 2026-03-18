@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/Family-Shopping-App/',
   plugins: [
     vue(),
     VitePWA({
@@ -13,6 +14,8 @@ export default defineConfig({
         short_name: '待購清單',
         description: '家人的共同採購小助手',
         theme_color: '#42b883',
+        start_url: 'Family-Shopping-App/',
+        scope: 'Family-Shopping-App/',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -28,6 +31,5 @@ export default defineConfig({
         ]
       }
     }),
-  ],
-  base: '/Family-Shopping-App/'
+  ]
 })
