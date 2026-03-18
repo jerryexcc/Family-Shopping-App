@@ -29,5 +29,5 @@ export default defineConfig({
       }
     }),
   ],
-  base: '/family-shopping-app/'
+  base: '/Family-Shopping-App/'
 })
