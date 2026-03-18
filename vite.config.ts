@@ -16,6 +16,7 @@ export default defineConfig({
         theme_color: '#42b883',
         start_url: 'Family-Shopping-App/',
         scope: 'Family-Shopping-App/',
+        display: 'standalone',
         icons: [
           {
             src: 'pwa-192x192.png',
