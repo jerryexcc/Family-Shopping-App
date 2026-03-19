@@ -21,11 +21,11 @@ export const useShoppingStore = defineStore("shopping", {
         this.isDemoMode = true;
         this.loadDemoData();
       } else {
-        await this.loadItems();
         // 初始自動同步 (非 Demo)
         if (navigator.onLine) {
           await this.loadFromCloud();
         }
+        await this.loadItems();
       }
     },
 
