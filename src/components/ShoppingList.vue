@@ -3,20 +3,24 @@ import { onMounted } from "vue";
 import { useShoppingStore } from "../stores/shopping";
 
 const store = useShoppingStore();
-onMounted(() => store.loadItems());
+
+onMounted(async () => {
+  // 這裡改用 store.initialize()，它會自動判斷要讀取本地 IndexedDB 還是 Demo 假資料
+  // 如果 App.vue 已經呼叫過 initialize，這裡會因邏輯緩衝而保持資料一致
+  await store.initialize();
+});
 </script>
 
 <template>
   <div class="max-w-md mx-auto p-4 pb-32">
     <div class="flex justify-between items-center mb-4 px-2">
       <h2 class="text-xs font-black text-slate-400 uppercase tracking-widest">
-        目前清單
+        {{ store.isDemoMode ? '展示用清單' : '目前清單' }}
       </h2>
+     
       <div v-if="store.hasUnsyncedChanges" class="flex items-center gap-1">
         <span class="flex h-2 w-2 relative">
-          <span
-            class="animate-ping absolute h-full w-full rounded-full bg-amber-400 opacity-75"
-          ></span>
+          <span class="animate-ping absolute h-full w-full rounded-full bg-amber-400 opacity-75"></span>
           <span class="relative rounded-full h-2 w-2 bg-amber-500"></span>
         </span>
         <span class="text-[10px] text-amber-600 font-bold">待上傳</span>
@@ -39,18 +43,16 @@ onMounted(() => store.loadItems());
       >
         <div class="flex justify-between items-center">
           <div>
-            <span class="text-[10px] font-black text-slate-400">{{
-              item.brand || "一般"
-            }}</span>
+            <span class="text-[10px] font-black text-slate-400">
+              {{ item.brand || "一般" }}
+            </span>
             <h3
               class="text-lg font-bold text-slate-800"
-              :class="{ 'line-through': item.status === 'bought' }"
+              :class="{ 'line-through decoration-2 decoration-emerald-500/50': item.status === 'bought' }"
             >
               {{ item.name }}
             </h3>
-            <span class="text-sm font-medium text-slate-500"
-              >需求: {{ item.targetQty }}</span
-            >
+            <span class="text-sm font-medium text-slate-500">需求: {{ item.targetQty }}</span>
           </div>
 
           <div
@@ -73,14 +75,21 @@ onMounted(() => store.loadItems());
           </div>
         </div>
       </div>
+
+      <div v-if="store.items.length === 0" class="text-center py-12 text-slate-300">
+        <div class="text-4xl mb-2">🍃</div>
+        <p class="text-xs font-bold tracking-widest uppercase">清單空空如也</p>
+      </div>
     </div>
 
     <div class="fixed bottom-6 left-0 right-0 px-6 flex justify-center">
       <button
         @click="store.triggerSync()"
-        class="w-full max-w-md bg-zinc-900 text-white flex items-center justify-center gap-3 py-4 rounded-2xl font-black text-lg shadow-2xl active:scale-95 transition-all"
+        :disabled="store.isSyncing"
+        class="w-full max-w-md bg-zinc-900 text-white flex items-center justify-center gap-3 py-4 rounded-2xl font-black text-lg shadow-2xl active:scale-95 transition-all disabled:opacity-50"
       >
-        <span v-if="!store.isSyncing">🏁 結束採買 · 更新雲端</span>
+        <div v-if="store.isSyncing" class="animate-spin h-5 w-5 border-2 border-white/30 border-t-white rounded-full"></div>
+        <span>{{ store.isSyncing ? '同步中...' : '🏁 結束採買 · 更新雲端' }}</span>
       </button>
     </div>
   </div>
