@@ -2,7 +2,7 @@ import axios from 'axios';
 import { type ShoppingItem } from '../db';
 
 // 這裡填入你的 Google Apps Script 部署網址
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyQaNQs_t-HCrgrfx_ghsKmkKyrF93psa54UPITe4-p8ffHfCYHiPoRCf7fMUQImEdl/exec'; 
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzs8B3LSn4LYgYPLPz9JjFclycCU-x2tSZpt8KosoyK59m0mETnrrntUILHEaxwb3YY/exec'; 
 
 export const fetchFromCloud = async () => {
   const response = await axios.get(GAS_URL);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { type ShoppingItem } from "./db";
 
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzvm6sRf3pdIsd2-B24lnfunl5vnRQABO1d5pOzRzUrecWHAckxGo3zvFxxlEGVSvwH/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzs8B3LSn4LYgYPLPz9JjFclycCU-x2tSZpt8KosoyK59m0mETnrrntUILHEaxwb3YY/exec';
 
 export const syncToCloud = async (data: any[]) => {
   try {
